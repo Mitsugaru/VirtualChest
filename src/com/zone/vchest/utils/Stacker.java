@@ -11,6 +11,11 @@
  * along with GiftPost. If not, see <http://www.gnu.org/licenses/>. ************************************************************************/
 package com.zone.vchest.utils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import org.bukkit.inventory.ItemStack;
 
 import com.zone.vchest.objects.VirtualChest;
@@ -19,54 +24,56 @@ import com.zone.vchest.objects.VirtualChest;
 public class Stacker {
 	
 	public static boolean sortChest(VirtualChest chest) {
-		int swapStackI = 0;
-		ItemStack swapStack;
-		int size = chest.getMcContents().length;
-		for (int index = 0; index < size; index++) {
-			ItemStack stack = chest.getItemStack(index);
-			swapStack = stack;
-			swapStackI = index;
-			for (int i = index + 1; i < size; i++) {
-				ItemStack stack2 = chest.getItemStack(i);
-				if ((stack2 != null && stack2.getAmount() != 0 && stack2.getTypeId() != 0) && (swapStack == null || stack2.getTypeId() < swapStack.getTypeId())) {
-					swapStackI = i;
-					swapStack = stack2;
-				}
-			}
-			if (swapStack != null) {
-				if (swapStack != stack) {
-					chest.swapItemStack(index, swapStackI);
-				}
-			} else {
-				break;
-			}
-		}
+		sort(chest);
 		return true;
 	}
 	
 	/** Stacks the contents of a chest. */
 	public static boolean stackChest(VirtualChest chest) {
-		for (int index = 0; index < chest.getMcContents().length; index++) {
-			ItemStack stack = chest.getItem(index);
-			if (stack != null && stack.getAmount() != 0 && stack.getTypeId() != 0 && stack.getAmount() != stack.getMaxStackSize()) {
-				int i = 0;
-				for (ItemStack stack2 : chest.getContents()) {
-					if (stack2 != null && i != index && stack2.getAmount() != 0 && stack2.getAmount() < stack2.getMaxStackSize() && stack2.getTypeId() == stack.getTypeId() && stack2.getDurability() == stack.getDurability()) {
-						int oldCount = stack.getAmount();
-						stack.setAmount(Math.min(stack2.getMaxStackSize(), stack.getAmount() + stack2.getAmount()));
-						chest.setItem(index, stack);
-						stack2.setAmount(Math.max(0, oldCount + stack2.getAmount() - stack2.getMaxStackSize()));
-						if (stack2.getAmount() > 0) {
-							chest.setItem(i, stack2);
-							break;
-						} else
-							chest.removeItemStack(i);
-					}
-					i++;
+		sort(chest);
+		return true;
+	}
+	
+	public static void sort(VirtualChest e) {
+		List<ItemStack> stacks = new ArrayList<ItemStack>();
+		for (ItemStack is : e.getInventory().getContents()) {
+			if (is == null)
+				continue;
+			for (ItemStack check : stacks) {
+				if (check == null)
+					continue;
+				if (check.getType() == is.getType() && ((check.getData() == null && is.getData() == null) || check.getData().getData() == is.getData().getData())) {
+					int transfer = Math.min(is.getAmount(), check.getMaxStackSize() - check.getAmount());
+					is.setAmount(is.getAmount() - transfer);
+					check.setAmount(check.getAmount() + transfer);
 				}
 			}
-			index++;
+			if (is.getAmount() > 0) {
+				stacks.add(is);
+			}
 		}
-		return true;
+		Collections.sort(stacks, new Comparator<ItemStack>() {
+			
+			@Override
+			public int compare(ItemStack o1, ItemStack o2) {
+				if (o1.getTypeId() > o2.getTypeId()) {
+					return 1;
+				} else if (o1.getTypeId() < o2.getTypeId()) {
+					return -1;
+				} else if (o1.getData() != null && o2.getData() != null && o1.getData().getData() > o2.getData().getData()) {
+					return 1;
+				} else if (o1.getData() != null && o2.getData() != null && o1.getData().getData() < o2.getData().getData()) {
+					return -1;
+				} else if (o1.getAmount() > o2.getAmount()) {
+					return -1;
+				} else if (o1.getAmount() < o2.getAmount()) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+		});
+		e.getInventory().clear();
+		e.getInventory().setContents(stacks.toArray(new ItemStack[0]));
 	}
 }
