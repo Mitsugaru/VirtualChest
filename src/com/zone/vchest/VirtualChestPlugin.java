@@ -37,7 +37,8 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-
+import com.zone.vchest.Metrics.Graph;
+import com.zone.vchest.Metrics.Plotter;
 import com.zone.vchest.commands.Buy;
 import com.zone.vchest.commands.Chest;
 import com.zone.vchest.commands.ChestList;
@@ -280,6 +281,15 @@ public class VirtualChestPlugin extends JavaPlugin {
 		} catch (IOException e) {
 			return;
 		}
+		Graph version = m.createGraph("Version");
+		version.addPlotter(new Plotter(getDescription().getVersion()) {
+			
+			@Override
+			public int getValue() {
+				return 1;
+			}
+		});
+		m.addGraph(version);
 		m.start();
 	}
 	
