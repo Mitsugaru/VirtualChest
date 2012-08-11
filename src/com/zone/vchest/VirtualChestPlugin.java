@@ -181,6 +181,7 @@ public class VirtualChestPlugin extends JavaPlugin {
 		SignListener sListener = new SignListener();
 		DeathEntityListener deathListener = new DeathEntityListener();
 		registerCommands();
+		getServer().getScheduler().scheduleSyncRepeatingTask(this, pListener, 0, 1);
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(pluginListener, this);
 		pm.registerEvents(pListener, this);

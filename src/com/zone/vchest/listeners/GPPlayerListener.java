@@ -11,6 +11,9 @@
  * along with GiftPost. If not, see <http://www.gnu.org/licenses/>. ************************************************************************/
 package com.zone.vchest.listeners;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,7 +23,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -31,9 +33,10 @@ import com.zone.vchest.commands.Chest;
 import com.zone.vchest.commands.Upgrade;
 
 /** @author Balor (aka Antoine Aflalo) */
-public class GPPlayerListener implements Listener {
+public class GPPlayerListener implements Listener, Runnable {
 	
 	private final VirtualChestWorker worker;
+	Set<Player> block = new HashSet<Player>();
 	
 	public GPPlayerListener() {
 		worker = VirtualChestWorker.getInstance();
@@ -71,8 +74,10 @@ public class GPPlayerListener implements Listener {
 	
 	@EventHandler
 	public void onSign(PlayerInteractEvent event) {
-		if (event.getPlayer().getOpenInventory().getType() != InventoryType.CRAFTING && event.getPlayer().getOpenInventory().getType() != InventoryType.CREATIVE)
+		if (block.contains(event.getPlayer())) {
 			return;
+		}
+		block.add(event.getPlayer());
 		if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			final Block block = event.getClickedBlock();
 			if (block.getType().equals(Material.WALL_SIGN) || block.getType().equals(Material.SIGN_POST)) {
@@ -86,5 +91,10 @@ public class GPPlayerListener implements Listener {
 				}
 			}
 		}
+	}
+	
+	@Override
+	public void run() {
+		block.clear();
 	}
 }
