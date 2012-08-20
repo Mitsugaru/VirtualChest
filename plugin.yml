@@ -1,6 +1,6 @@
 name: VirtualChest
 main: com.zone.vchest.VirtualChestPlugin
-version:  5.6.3
+version:  5.6.5
 authors: 
   - zonedabone
   - Balor
@@ -11,5 +11,5 @@ description: >
 commands:
  giftpost:
   description: master command
-  aliases: gp
+  aliases: [gp, vc, virtualchest]
   usage: /<command>
