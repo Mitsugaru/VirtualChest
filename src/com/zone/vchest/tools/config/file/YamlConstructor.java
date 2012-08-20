@@ -25,6 +25,7 @@ class YamlConstructor extends Constructor {
 	
 	private class ConstructCustomObject extends ConstructYamlMap {
 		
+		@SuppressWarnings("unchecked")
 		@Override
 		public Object construct(Node node) {
 			if (node.isTwoStepsConstruction()) {

@@ -644,6 +644,7 @@ public class FilesManager {
 	 * 
 	 * @param fileName
 	 * @return */
+	@SuppressWarnings("unchecked")
 	public HashMap<String, VirtualChest> loadParties(String fileName) {
 		String filename = path + File.separator + fileName;
 		HashMap<String, VirtualChest> partiesAndChests = new HashMap<String, VirtualChest>();
@@ -694,6 +695,7 @@ public class FilesManager {
 	 * 
 	 * @param player
 	 * @return */
+	@SuppressWarnings("unchecked")
 	public HashMap<String, VirtualChest> getPlayerChests(String player) {
 		HashMap<String, VirtualChest> result = new HashMap<String, VirtualChest>();
 		HashMap<String, ArrayList<SerializedItemStack>> saved = new HashMap<String, ArrayList<SerializedItemStack>>();
@@ -759,6 +761,7 @@ public class FilesManager {
 	 * 
 	 * @param fileName
 	 * @return an HashMap with all the chests */
+	@SuppressWarnings("unchecked")
 	public void loadChests(String fileName, HashMap<String, HashMap<String, VirtualChest>> playerAndChest) {
 		String filename = path + File.separator + fileName;
 		HashMap<String, HashMap<String, ArrayList<SerializedItemStack>>> saved = null;
@@ -810,6 +813,7 @@ public class FilesManager {
 	 *             loadChests(String fileName) instead
 	 * @param fileName
 	 * @return */
+	@SuppressWarnings("unchecked")
 	@Deprecated
 	public HashMap<String, HashMap<String, VirtualChest>> transfer(String fileName) {
 		String filename = path + File.separator + fileName;
