@@ -200,7 +200,7 @@ public class VirtualChestPlugin extends JavaPlugin {
 		server = getServer();
 		VirtualChestWorker.setDisable(false);
 		setupConfigFiles();
-		getLogger().info("[" + getDescription().getName() + "]" + " (version " + getDescription().getVersion() + ")");
+		getLogger().info("(version " + getDescription().getVersion() + ")");
 		gpw = VirtualChestWorker.getInstance();
 		gpw.setConfig(ExtendedConfiguration.loadConfiguration(new File(getDataFolder(), "config.yml")), this);
 		gpw.setfManager(getDataFolder().toString());
@@ -213,7 +213,7 @@ public class VirtualChestPlugin extends JavaPlugin {
 			new File(getDataFolder() + File.separator + "chests.dat").delete();
 		} else
 			gpw.newLoad();
-		getLogger().info("[" + getDescription().getName() + "] Chests loaded !");
+		getLogger().info("Chests loaded!");
 		getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
 			
 			@Override
@@ -241,7 +241,7 @@ public class VirtualChestPlugin extends JavaPlugin {
 			server.getScheduler().cancelTasks(this);
 			VirtualChestWorker.setDisable(true);
 			VirtualChestWorker.killInstance();
-			getLogger().info("[" + pdfFile.getName() + "]" + " Plugin Disabled. (version " + pdfFile.getVersion() + ")");
+			getLogger().info("Plugin Disabled. (version " + pdfFile.getVersion() + ")");
 		}
 	}
 	
