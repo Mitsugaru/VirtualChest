@@ -38,8 +38,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-
-import com.gmail.nossr50.mcMMO;
 import com.google.common.collect.MapMaker;
 import com.zone.vchest.commands.GPCommand;
 import com.zone.vchest.manager.permissions.PermissionManager;
@@ -62,7 +60,6 @@ public class VirtualChestWorker {
 	public static final Logger log = Logger.getLogger("Minecraft");
 	public static final Logger workerLog = Logger.getLogger("VirtualChest");
 	private static Economy economy = null;
-	private static mcMMO mcMMO = null;
 	private static VirtualChestWorker instance;
 	private ConcurrentMap<String, PlayerChests> allChests = new MapMaker().concurrencyLevel(8).makeMap();
 	private static boolean disable = false;
@@ -548,26 +545,6 @@ public class VirtualChestWorker {
 			return flag.equals(checkFlag) || flag.equals("-" + checkFlag);
 		}
 		return false;
-	}
-	
-	/** mcMMO plugin
-	 * 
-	 * @return */
-	public static mcMMO getmcMMO() {
-		return mcMMO;
-	}
-	
-	/** Set mcMMO Plugin
-	 * 
-	 * @param plugin
-	 * @return */
-	public static boolean setmcMMO(mcMMO plugin) {
-		if (mcMMO == null) {
-			mcMMO = plugin;
-		} else {
-			return false;
-		}
-		return true;
 	}
 	
 	/** @return a keyset with all the name of the player owning a chest. */

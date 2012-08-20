@@ -19,9 +19,7 @@ import org.bukkit.plugin.Plugin;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
-import com.gmail.nossr50.mcMMO;
 import com.zone.vchest.VirtualChestPlugin;
-import com.zone.vchest.VirtualChestWorker;
 import com.zone.vchest.manager.permissions.PermissionManager;
 
 /** @author Balor (aka Antoine Aflalo) */
@@ -36,15 +34,6 @@ public class PluginListener implements Listener {
 			if (Permissions != null) {
 				if (Permissions.isEnabled())
 					PermissionManager.setPEX(PermissionsEx.getPermissionManager());
-			}
-		}
-		if (VirtualChestWorker.getmcMMO() == null) {
-			final Plugin mcMMOPlugin = VirtualChestPlugin.getBukkitServer().getPluginManager().getPlugin("mcMMO");
-			if (mcMMOPlugin != null) {
-				if (mcMMOPlugin.isEnabled()) {
-					VirtualChestWorker.setmcMMO((mcMMO) mcMMOPlugin);
-					System.out.println("[VirtualChest] Successfully linked with mcMMO.");
-				}
 			}
 		}
 	}

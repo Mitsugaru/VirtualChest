@@ -67,10 +67,6 @@ public class Display {
 				sendHelp(sender, SetChestLimit.class);
 			if (VirtualChestWorker.getInstance().hasPerm(player, "giftpost.admin.item", false))
 				sendHelp(sender, GiveItem.class);
-		} else if (page == 3) {
-			if (VirtualChestWorker.getmcMMO() != null && VirtualChestWorker.getInstance().hasPerm(player, "mcmmo.commands.party", false)) {
-				sender.sendMessage(ChatColor.AQUA + "mcMMO commands ! ");
-			}
 		}
 	}
 	
